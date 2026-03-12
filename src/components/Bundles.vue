@@ -1,143 +1,169 @@
 <script setup>
-import { ref } from 'vue'
+import {ref} from 'vue'
+import {useRouter} from "vue-router"
 
-const bundles = ref([
-  {
-    title: 'Daily Pass',
-    price: '500 Ksh',
-    icon: 'mdi-clock-outline',
-    duration: '1 Day',
-    features: ['Gym access', 'Locker use']
-  },
-  {
-    title: 'Monthly Pass',
-    price: '5,500 Ksh',
-    icon: 'mdi-calendar-month',
-    duration: '30 Days',
-    features: ['Unlimited access', 'Locker', 'Free towel']
-  },
-  {
-    title: '3 Months',
-    price: '15,000 Ksh',
-    icon: 'mdi-numeric-3-circle',
-    duration: '90 Days',
-    features: ['Everything + Free class', 'Trainer intro']
-  },
-  {
-    title: '6 Months',
-    price: '25,000 Ksh',
-    icon: 'mdi-numeric-6-circle',
-    duration: '180 Days',
-    features: ['Premium access', '2 Free classes/mo']
-  },
-  {
-    title: 'Annual Pass',
-    price: '45,000 Ksh',
-    icon: 'mdi-calendar-star',
-    duration: '365 Days',
-    features: ['VIP access', 'Unlimited classes', 'Personal plan']
+const router = useRouter();
+
+const showBundleDialog = ref(false)
+const isLoggedIn = localStorage.getItem("isLoggedIn")
+const selectedBundle = ref(null)
+const selectedPrice = ref(null)
+
+function showBundle(name, price){
+  if(isLoggedIn){
+    selectedBundle.value = name
+    selectedPrice.value = price
+    showBundleDialog.value = true //open pop up
+  }else{
+    router.push('/login')
   }
-])
+}
+function subscribe(){
+   const userDetails = JSON.parse(localStorage.getItem('userDetails') || '{}')
+   userDetails.subscription = {
+    name: selectedBundle.value,
+    price: selectedPrice.value, 
+   }
+   localStorage.setItem('userDetails', JSON.stringify(userDetails))
+   showBundleDialog.value = false
+  }
+
 </script>
 
 <template>
-  <v-container class="py-12">
-    <v-row>
-      <v-col cols="12" class="text-center mb-16">
-        <div class="text-h3 mb-4">Choose Your Perfect Bundle</div>
-        <div class="text-subtitle-1 text-medium-emphasis mb-12">
-          Select the plan that fits your fitness goals and schedule
-        </div>
-      </v-col>
-    </v-row>
+    <v-container style="background-color:#E3F2FD" max-width="100%">
+        <v-row>
+            <v-col> 
+                <div class="text-display-medium mb-12">Bundles & Pricing</div>
+            </v-col>
+        </v-row>
 
-    <v-row>
-      <v-col 
-        v-for="(bundle, i) in bundles" 
-        :key="i" 
-        cols="12" 
-        sm="6" 
-        md="4" 
-        lg="2.4"
-      >
-        <v-card 
-          class="bundle-card pa-8 text-center elevation-8 fill-height hover"
-          height="100%"
-        >
-          <div class="bundle-icon mb-6">
-            <v-icon 
-              :color="i === 0 ? 'warning' : 'primary'" 
-              :icon="bundle.icon" 
-              size="64"
-            ></v-icon>
-          </div>
-          <div class="text-h5 font-weight-bold mb-2">{{ bundle.title }}</div>
-          <div class="text-h4 font-weight-black primary--text mb-4">
-            {{ bundle.price }}
-          </div>
-          <div class="text-body-1 text-medium-emphasis mb-6">
-            {{ bundle.duration }}
-          </div>
-          <v-list density="compact" class="transparent pa-0 mb-6">
-            <v-list-item v-for="(feature, j) in bundle.features" :key="j">
-              <v-icon start small color="success">mdi-check-circle</v-icon>
-              <v-list-item-title>{{ feature }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-          <v-btn 
-            color="primary" 
-            variant="elevated" 
-            block 
-            rounded="xl"
-            size="large"
-            class="text-body-1 font-weight-bold"
-          >
-            Select Bundle
-          </v-btn>
-        </v-card>
-      </v-col>
-    </v-row>
+        <v-row>
+            <v-col md="3">
+                <v-card class="text-center" @click="showBundle">
+                    <v-icon color="#1565C0" icon="mdi-clock-time-four" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">Daily Pass</v-card-title>
+                    <v-card-text>500 Ksh</v-card-text>
+                </v-card> 
+            </v-col>
 
-    <v-row class="mt-16">
-      <v-col cols="12" class="text-center">
-        <v-card class="pa-12 mx-auto" max-width="800" color="surface" elevation="8" rounded="xl">
-          <div class="text-h4 mb-4">Ready to start your fitness journey?</div>
-          <div class="text-body-1 text-medium-emphasis mb-8">
-            All bundles include 24/7 access, world-class equipment, 
-            certified trainers, and a supportive community.
-          </div>
-          <v-btn 
-            color="secondary" 
-            size="x-large" 
-            variant="elevated"
-            class="px-12"
-          >
-            Get Started Today
-          </v-btn>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+            <v-col md="3">
+                <v-card class="text-center" @click="showBundle">
+                    <v-icon color="#1565C0" icon="mdi-calendar-blank-outline" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">Monthly Pass</v-card-title>
+                    <v-card-text>5,000 Ksh</v-card-text>
+                </v-card> 
+            </v-col>
+            
+            <v-col md="3">
+                <v-card class="text-center" @click="showBundle">
+                    <v-icon color="#1565C0" icon="mdi-weight-lifter" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">3-month Pass</v-card-title>
+                    <v-card-text>12,000 Ksh</v-card-text>
+                </v-card> 
+            </v-col>
+
+            <v-col md="3">
+                <v-card class="text-center" @click="showBundle">
+                    <v-icon color="#1565C0" icon="mdi-gymnastics" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">6-Month Pass</v-card-title>
+                    <v-card-text>20,000 Ksh</v-card-text>
+                </v-card> 
+            </v-col>
+            
+        </v-row>
+
+        <v-row>
+            <v-col md="12">
+
+            <v-col md="3">
+                <v-card class="text-center" @click="showBundle" > 
+                    <v-icon color="#1565C0" icon="mdi-clock-time-four" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">Daily Pass</v-card-title>
+                    <v-card-text>500 Ksh</v-card-text>
+                </v-card> 
+            </v-col>
+            </v-col>
+        </v-row>
+    </v-container>
+
+    <!--What's Included-->
+
+    <v-container style="background-color:#E3F2FD" max-width="100%">
+        <v-row>
+            <v-col md="12">
+                <div class="text-display-medium mb-12">What Is In Our Bundles?</div>
+
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col md="3">
+                <v-card class="text-center" hover >
+                    <v-icon color="#1565C0" icon="mdi-weight-lifter" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">On-Demand Training</v-card-title>
+                    <v-card-text> Can’t make it to the floor? Take our expert-led classes with you via our digital library, featuring live streams and habit-tracking tools.</v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col md="3">
+                <v-card class="text-center" hover>
+                    <v-icon color="#1565C0" icon="mdi-food-apple" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">Nutrition Concierge</v-card-title>
+                    <v-card-text>Master your diet with custom macro-calculations and exclusive discounts on premium meal-prep and our in-house fuel bar.</v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col md="3">
+                <v-card class="text-center" hover >
+                    <v-icon color="#1565C0" icon="mdi-bottle-tonic-plus" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">Recovery Lab</v-card-title>
+                    <v-card-text>Access professional-grade tools like infrared saunas, cold plunges, and percussion therapy to slash your soreness and bounce back faster.</v-card-text>
+                </v-card>
+            </v-col>
+
+            <v-col md="3">
+                <v-card class="text-center" hover>
+                    <v-icon color="#1565C0" icon="mdi-face-recognition" size="large" class="mt-8"></v-icon>
+                    <v-card-title color="#1565C0">Biometric Tracking</v-card-title>
+                    <v-card-text>Go beyond the scale with 3D body scanning and quarterly consultations. We map your progress so you know exactly how your body is changing.</v-card-text>
+                </v-card>
+            </v-col>
+         </v-row>
+
+        <v-row>
+        </v-row>
+    </v-container>
+
+    <!--How t Join-->
+    <v-container style="background-color:#E3F2FD" max-width="100%" class="mt-12">
+        <v-row>
+            <div class="text-display-medium mt-8">How to Join MacFit:</div>
+        </v-row>
+
+        <v-row>
+            <v-list>
+                <v-list-item>1. Select Yor Preffered Gym</v-list-item>
+                <v-list-item>2. Fill in the online form</v-list-item>
+                <v-list-item>3. Complete the Payment</v-list-item>
+                <v-list-item>4. Visit the Gym to activate account</v-list-item>
+            </v-list>
+        </v-row>
+
+    </v-container>
+     <v-dialog v-model="showBundleDialog" max-width="600" >
+
+      <v-card prepend-icon="mdi-account" title="Subscribe to Bundle" >
+        <v-card-text>
+          You are about to subscribe to {{ selectedBundle }} at {{ selectedPrice }}. Click on the button below to complete payment
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+         <v-spacer></v-spacer>
+          <v-btn text="Close" variant="plain" @click="showBundleDialog = false" ></v-btn>
+          <v-btn color="primary" variant="tonal" @click="subscribe()" >Subscribe</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </template>
-
-<style scoped>
-.bundle-card {
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-.bundle-card.hover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(29, 49, 36, 0.2) !important;
-}
-.bundle-icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(186, 206, 193, 0.2), rgba(246, 244, 232, 0.2));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
-</style>
-

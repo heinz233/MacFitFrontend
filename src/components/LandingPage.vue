@@ -19,7 +19,7 @@
               cover
               gradient="to right, rgba(29,49,36,0.6), rgba(29,49,36,0.4)"
             >
-              <v-row class="fill-height pa-16" align="center">
+              <v-row class="fill-height pa-16" text-align="center">
                 <v-col cols="12" md="7">
                   <div class="hero-content">
                     <div class="text-h2 font-weight-black mb-4 text-white drop-shadow">
