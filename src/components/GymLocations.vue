@@ -25,7 +25,10 @@ onMounted(()=> {
       <v-row>
         <v-col>
           <v-card>
-            
+            <v-row>
+              <v-col md="4"></v-col>
+              <v-col md="8"></v-col>
+            </v-row>
           </v-card>
         </v-col>
       </v-row>
