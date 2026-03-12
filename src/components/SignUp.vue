@@ -49,7 +49,7 @@ function signUp(){
                 <v-form>
                     <v-row>
                         <v-col md="12">
-                            <v-img src="src/assets/PIXXGRAM.png"></v-img>
+                            <v-img src="/public/"></v-img>
                         </v-col>
                     </v-row>
                     <v-row>

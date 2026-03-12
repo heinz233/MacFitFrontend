@@ -1,5 +1,4 @@
-<script setup>
-  
+<script setup>  
 import "leaflet/dist/leaflet.css"
 import * as L from 'leaflet';
 import { ref, onMounted } from 'vue';
@@ -26,8 +25,54 @@ onMounted(()=> {
         <v-col>
           <v-card>
             <v-row>
-              <v-col md="4"></v-col>
-              <v-col md="8"></v-col>
+              <v-col md="4">
+                <v-card-text>CBD</v-card-text>
+              </v-col>
+              <v-col md="8">
+                <div id="map" style="height:30vh"></div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-row>
+              <v-col md="4">
+                <v-card-text>CBD</v-card-text>
+              </v-col>
+              <v-col md="8">
+                <div id="map" style="height:30vh"></div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-row>
+              <v-col md="4">
+                <v-card-text>CBD</v-card-text>
+              </v-col>
+              <v-col md="8">
+                <div id="map" style="height:30vh"></div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-row>
+              <v-col md="4">
+                <v-card-text>CBD</v-card-text>
+              </v-col>
+              <v-col md="8">
+                <div id="map" style="height:30vh"></div>
+              </v-col>
             </v-row>
           </v-card>
         </v-col>
