@@ -1,0 +1,33 @@
+<script setup>
+  
+import "leaflet/dist/leaflet.css"
+import * as L from 'leaflet';
+import { ref, onMounted } from 'vue';
+
+const initialMap = ref(null);
+
+onMounted(()=> {
+   initialMap.value = L.map('map').setView([-1.2953145569779758, 36.817184449599566], 10);
+   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+       maxZoom: 19,
+   }).addTo(initialMap.value);
+   L.marker([-1.3073328374609299, 36.81211146039793]).addTo(initialMap.value);
+});
+</script>
+
+<template>
+    <v-container class="mt-12">
+      <v-row>
+        <v-col>
+          <div class="text-display-medium mb-6">Our locations</div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+</template>
